@@ -1,5 +1,6 @@
 import 'package:crud_operations/core/theme/text.dart';
 import 'package:crud_operations/core/widgets/now_bottom.dart';
+import 'package:crud_operations/pages/login/login_page.dart';
 import 'package:crud_operations/pages/register/register_form.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +29,9 @@ class RegisterPage extends StatelessWidget {
                 children: [
                   /* ----------------------- Register Form -----------------------  */
 
-                  RegisterForm(formKey: formKey),
+                  RegisterForm(
+                    formKey: formKey,
+                  ),
 
                   /* ----------------------- Register Now -----------------------  */
 
@@ -37,7 +40,11 @@ class RegisterPage extends StatelessWidget {
                     child: NowBottom(
                       text: AppText.already,
                       text2: AppText.loginNow,
-                      onTap: () => onTap!(),
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LoginPage(),
+                          )),
                     ),
                   )
                 ],

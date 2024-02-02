@@ -2,6 +2,7 @@ import 'package:crud_operations/core/theme/text.dart';
 import 'package:crud_operations/core/widgets/now_bottom.dart';
 import 'package:crud_operations/pages/login/login_divider.dart';
 import 'package:crud_operations/pages/login/login_form.dart';
+import 'package:crud_operations/pages/register/register_page.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
@@ -19,7 +20,6 @@ class LoginPage extends StatelessWidget {
     //Brightness brightness = Theme.of(context).brightness;
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
       resizeToAvoidBottomInset: false,
       body: Padding(
         padding: EdgeInsets.only(
@@ -50,7 +50,12 @@ class LoginPage extends StatelessWidget {
                     child: NowBottom(
                       text: AppText.member,
                       text2: AppText.registerNow,
-                      onTap: () => onTap!(),
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RegisterPage(),
+                        ),
+                      ),
                     ),
                   )
                   /* const LoginNow() */

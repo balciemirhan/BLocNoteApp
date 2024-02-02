@@ -1,11 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:crud_operations/auth/signup.dart';
+import 'package:crud_operations/business_logic/blocs/auth_bloc/auth_bloc.dart';
+import 'package:crud_operations/business_logic/blocs/auth_bloc/auth_event.dart';
 import 'package:crud_operations/core/theme/text.dart';
 import 'package:crud_operations/core/widgets/auth_button.dart';
 import 'package:crud_operations/core/widgets/my_textformfield.dart';
-import 'package:crud_operations/models/user_model.dart';
+import 'package:crud_operations/pages/home_page.dart';
+import 'package:crud_operations/pages/login/login_page.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({Key? key, required this.formKey}) : super(key: key);
@@ -23,7 +26,6 @@ class _RegisterFormState extends State<RegisterForm> {
   final TextEditingController confirmPasswordController =
       TextEditingController();
   final TextEditingController userNameController = TextEditingController();
-  RegisterService registerService = RegisterService();
 
 //butona atamak için oluşturduğum fonksiyon. => register()
 
@@ -48,7 +50,7 @@ class _RegisterFormState extends State<RegisterForm> {
         children: [
           /* ----------------------- MyTextformfields -----------------------  */
 
-          MyTextformfield(
+          /*         MyTextformfield(
             controller: userNameController,
             hintText: "Kullanıcı Adı",
             prefixIcon: const Icon(Icons.email_outlined),
@@ -59,7 +61,7 @@ class _RegisterFormState extends State<RegisterForm> {
               }
               return null;
             },
-          ),
+          ), */
           const SizedBox(height: 15),
           MyTextformfield(
             controller: emailController,
@@ -109,11 +111,18 @@ class _RegisterFormState extends State<RegisterForm> {
               formKey: widget.formKey,
               buttonTitle: AppText.registerButtonTitle,
               auth: () async {
-                await RegisterService().createUser(emailController.text,
-                    passwordController.text, confirmPasswordController.text);
-                await RegisterService().storeUserInfoToFirebase(UserModel(
-                    email: emailController.text,
-                    username: userNameController.text));
+                BlocProvider.of<AuthBloc>(context).add(
+                  CreateUser(
+                      email: emailController.text,
+                      password: passwordController.text,
+                      confirmPassword: confirmPasswordController.text),
+                );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginPage(),
+                  ),
+                );
               },
             ),
           ),

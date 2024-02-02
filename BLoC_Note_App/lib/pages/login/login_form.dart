@@ -1,8 +1,11 @@
-import 'package:crud_operations/auth/signin.dart';
+import 'package:crud_operations/business_logic/blocs/auth_bloc/auth_bloc.dart';
+import 'package:crud_operations/business_logic/blocs/auth_bloc/auth_event.dart';
 import 'package:crud_operations/core/theme/text.dart';
 import 'package:crud_operations/core/widgets/auth_button.dart';
 import 'package:crud_operations/core/widgets/my_textformfield.dart';
+import 'package:crud_operations/pages/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({
@@ -75,8 +78,19 @@ class _LoginFormState extends State<LoginForm> {
           AuthButton(
             formKey: widget.formkey,
             buttonTitle: AppText.loginButtonTitle,
-            auth: () => LoginService()
-                .loginUser(emailController.text, passwordController.text),
+            auth: () async {
+              context.read<AuthBloc>().add(
+                    LoginUser(
+                        email: emailController.text,
+                        password: passwordController.text),
+                  );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const HomePage(),
+                ),
+              );
+            },
           )
         ],
       ),

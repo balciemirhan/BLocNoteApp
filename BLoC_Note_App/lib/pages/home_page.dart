@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:crud_operations/auth/signout.dart';
+import 'package:crud_operations/business_logic/blocs/auth_bloc/auth_bloc.dart';
+import 'package:crud_operations/business_logic/blocs/auth_bloc/auth_event.dart';
 import 'package:crud_operations/models/notes_model.dart';
 import 'package:crud_operations/pages/profile_page.dart';
 import 'package:crud_operations/services/firestore_note.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -87,7 +89,9 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           IconButton(
-              onPressed: () => OutService().signOut(),
+              onPressed: () async {
+                context.read<AuthBloc>().add(UserOut());
+              },
               icon: const Icon(
                 Icons.exit_to_app,
                 color: Colors.white,

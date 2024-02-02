@@ -10,6 +10,7 @@ class LoginUser extends AuthEvent {
 
 class CreateUser extends AuthEvent {
   final String email;
+
   final String password;
   final String confirmPassword;
 
